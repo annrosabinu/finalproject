@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Chat Requests</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .chat-request {
+            border: 1px solid #ccc;
+            margin: 10px 0;
+            padding: 10px;
+        }
+        .chat-request h3 {
+            margin: 0 0 10px 0;
+        }
+        .button-group {
+            display: flex;
+            gap: 10px;
+        }
+        button {
+            padding: 5px 15px;
+            cursor: pointer;
+        }
+        .accept-button {
+            background-color: green;
+            color: white;
+        }
+        .reject-button {
+            background-color: red;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Your Chat Requests</h1>
+    
+    {% if chat_requests %}
+        {% for chat_request in chat_requests %}
+            <div class="chat-request">
+                <h3>Chat Request from {{ chat_request.sender.username }}</h3>
+                <p>Message: {{ chat_request.message }}</p>
+                <div class="button-group">
+                    <form method="POST" action="{% url 'accept_chat_request' chat_request.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="accept-button">Accept</button>
+                    </form>
+                    <form method="POST" action="{% url 'reject_chat_request' chat_request.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="reject-button">Reject</button>
+                    </form>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No active chat requests at the moment.</p>
+    {% endif %}
+
+</body>
+</html>

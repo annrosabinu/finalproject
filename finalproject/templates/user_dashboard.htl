@@ -1,0 +1,19 @@
+<h1>Welcome, {{ profile.user.username }}</h1>
+
+<p>Profile: {{ profile }}</p>
+
+<h2>Notifications:</h2>
+<ul>
+    {% for notification in notifications %}
+        <li>{{ notification.message }}</li>
+    {% endfor %}
+</ul>
+
+<h2>Chat Requests:</h2>
+<ul>
+    {% for request in chat_requests %}
+        <li>{{ request.sender.username }}: {{ request.message }}</li>
+    {% endfor %}
+</ul>
+
+<a href="{% url 'edit_profile' %}">Edit Profile</a>
